@@ -67,7 +67,7 @@ for index, row in filtered_df.iterrows():
         for el in weight_elements:
             text = el.text.strip().lower()
             if any(keyword in text for keyword in ['weight', 'net weight','weight:','g approx','Product net weight']) or re.search(r'\b\d+(\.\d+)?\s*(g|kg)\b', text, re.IGNORECASE):
-                print(f"🧐 Found potential weight text: {text}")
+                print(f" Found potential weight text: {text}")
 
                 if 'kg' in text:
                     try:
@@ -75,7 +75,7 @@ for index, row in filtered_df.iterrows():
                         weight_val = int(kg_val * 1000)
                         df.loc[index, 'Weight'] = weight_val
                         df.loc[index, 'Detection Method'] = 'scraper'
-                        print(f"✅ Parsed weight: {weight_val}g (from kg)")
+                        print(f" Parsed weight: {weight_val}g (from kg)")
                         found = True
                         break
                     except:
@@ -85,22 +85,21 @@ for index, row in filtered_df.iterrows():
                         g_val = int(''.join(filter(str.isdigit, text)))
                         df.loc[index, 'Weight'] = g_val
                         df.loc[index, 'Detection Method'] = 'scraper'
-                        print(f"✅ Parsed weight: {g_val}g")
+                        print(f" Parsed weight: {g_val}g")
                         found = True
                         break
                     except:
                         continue
 
         if not found:
-            print("⚠️ Weight not found or format unrecognized.")
+            print(" Weight not found or format unrecognized.")
 
     except Exception as e:
-        print(f"❌ Failed for '{product_name}': {e}")
+        print(f" Failed for '{product_name}': {e}")
         continue
 
 # Save the updated file
 df.to_excel("final.xlsx", index=False)
 print("\n✅ Done! Updated Excel saved as 'product_detailsS_updated.xlsx'.")
-
 # Close the browser
 driver.quit()  

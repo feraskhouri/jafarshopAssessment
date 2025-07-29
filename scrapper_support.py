@@ -140,7 +140,7 @@ def process_row(idx, row):
             time.sleep(2)
 
         except Exception as e:
-            print(f"❌ Error for '{name}': {e}")
+            print(f" Error for '{name}': {e}")
             driver.quit()
             return idx, None, None, ''
 
@@ -155,7 +155,6 @@ with ThreadPoolExecutor(max_workers=4) as exe:
         res = fut.result()
         if res:
             results.append(res)
-
 # ── 7. Write Back to DataFrame & Save ──────────────────────────────────────────
 for idx, val, unit, method in results:
     if val is not None:

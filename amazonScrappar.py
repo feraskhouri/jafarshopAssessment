@@ -16,8 +16,6 @@ from selenium.common.exceptions import (
     WebDriverException,
 )
 
-# ── CONFIGURATION ────────────────────────────────────────────────────────────
-
 # Disable ChromeDriver/Chrome version check hack
 os.environ["CHROMEDRIVER_DISABLE_BUILD_CHECK"] = "1"
 
@@ -104,9 +102,9 @@ def extract_weight(driver):
 
     # 4) No structured match
     if candidates:
-        logging.warning(f"    ⚠️ Candidates found but no regex match: {candidates}")
+        logging.warning(f"     Candidates found but no regex match: {candidates}")
     else:
-        logging.warning("    ⚠️ No weight candidates in structured sections")
+        logging.warning("     No weight candidates in structured sections")
     return None, None
 
 # ── MAIN WORKFLOW ─────────────────────────────────────────────────────────────
@@ -140,7 +138,7 @@ def main():
                 None
             )
             if not amazon_href:
-                logging.error("❌ No Amazon link in search results.")
+                logging.error("No Amazon link in search results.")
                 no_match_log.append((product, "no_amazon_link"))
                 continue
 
@@ -173,17 +171,17 @@ def main():
                 df.at[idx, "Detection Method"] = f"ddg→amazon({source})"
                 logging.info(f"✅ Parsed weight: {grams} g")
             else:
-                logging.error(f"❌ Could not extract weight for '{product}'")
+                logging.error(f" Could not extract weight for '{product}'")
                 no_match_log.append((product, driver.current_url))
 
         except (TimeoutException, NoSuchElementException, StaleElementReferenceException) as e:
-            logging.error(f"❌ Timeout/Element error for '{product}': {e}")
+            logging.error(f" Timeout/Element error for '{product}': {e}")
             no_match_log.append((product, driver.current_url))
         except WebDriverException as e:
-            logging.error(f"❌ WebDriver error: {e}")
+            logging.error(f"WebDriver error: {e}")
             break
         except Exception as e:
-            logging.error(f"❌ Unexpected error for '{product}': {e}")
+            logging.error(f" Unexpected error for '{product}': {e}")
             no_match_log.append((product, driver.current_url))
 
     # Save outputs

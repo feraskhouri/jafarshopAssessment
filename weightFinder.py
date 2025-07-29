@@ -64,11 +64,10 @@ for _, row in df.iterrows():
         "Weight": weight,
         "Detection Method": method
     })
-
 # Close the browser
 driver.quit()
 
 # Save to Excel
 output_df = pd.DataFrame(results)
 output_df.to_excel("product_details.xlsx", index=False)
-print("✅ Done! File saved with detection methods column.")
+print(" Done! File saved with detection methods column.")
