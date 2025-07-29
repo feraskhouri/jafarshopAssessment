@@ -97,7 +97,7 @@ def extract_weight(driver):
             num  = float(m.group(1))
             unit = m.group(2).lower().rstrip(".")
             grams = int(UNIT_MAP[unit](num))
-            logging.info(f"    🔍 Found '{key}' → '{val}' → {grams} g")
+            logging.info(f"     Found '{key}' → '{val}' → {grams} g")
             return grams, key
 
     # 4) No structured match
@@ -143,7 +143,7 @@ def main():
                 continue
 
             # Navigate to Amazon
-            logging.info(f"🌐 Navigate to Amazon: {amazon_href}")
+            logging.info(f" Navigate to Amazon: {amazon_href}")
             driver.get(amazon_href)
             wait.until(EC.url_contains("amazon.com"))
             time.sleep(2)
@@ -163,13 +163,13 @@ def main():
                     unit = fallback.group(2).lower().rstrip(".")
                     grams = int(UNIT_MAP[unit](num))
                     source = "full_page_regex"
-                    logging.info(f"    🔄 Fallback regex matched → {grams} g")
+                    logging.info(f"     Fallback regex matched → {grams} g")
 
             # Record result
             if grams is not None:
                 df.at[idx, "Weight"] = grams
                 df.at[idx, "Detection Method"] = f"ddg→amazon({source})"
-                logging.info(f"✅ Parsed weight: {grams} g")
+                logging.info(f" Parsed weight: {grams} g")
             else:
                 logging.error(f" Could not extract weight for '{product}'")
                 no_match_log.append((product, driver.current_url))
@@ -189,7 +189,7 @@ def main():
     if no_match_log:
         pd.DataFrame(no_match_log, columns=["Product", "Note_or_URL"]) \
           .to_excel("no_match_log.xlsx", index=False)
-    logging.info("✅ Done! Outputs saved.")
+    logging.info(" Done! Outputs saved.")
 
 if __name__ == "__main__":
     try:
